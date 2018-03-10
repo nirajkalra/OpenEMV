@@ -37,13 +37,6 @@ dependencies {
     // jcardsim 'com.licel:jcardsim:3.0.4'
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java/applet/'
-        }
-    }
-}
 test {
     useTestNG()
     jvmArgs '-noverify'
