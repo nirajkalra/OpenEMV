@@ -1,7 +1,6 @@
 # JavaCard Template project with Gradle
 
-[![Build Status](https://travis-ci.org/crocs-muni/javacard-gradle-template-edu.svg?branch=master)](https://travis-ci.org/crocs-muni/javacard-gradle-template-edu)
-
+[![Build Status](https://travis-ci.org/nirajkalra/OpenEMV.svg?branch=master)](https://travis-ci.org/nirajkalra/OpenEMV)
 This is simple JavaCard project template using Gradle build system.
 
 You can develop your JavaCard applets and build cap files with the Gradle!
