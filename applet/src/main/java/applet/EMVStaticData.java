@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-package applets;
+package applet;
 
 import javacard.framework.ISOException;
 import javacard.framework.Util;
