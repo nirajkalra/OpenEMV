@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-package applets;
+package applet;
 
 import javacard.framework.JCSystem;
 
@@ -34,7 +34,7 @@ import javacard.framework.JCSystem;
 public class EMVProtocolState implements EMVConstants {
 	
 	/* Reference back to the applet that uses this EMVCrypto object */
-	private final SimpleApplet theApplet;
+	private final SimpleEMVApplet theApplet;
 	private short atc;
 	private short lastOnlineATC ;
        // byte[]OnlineAtc = new byte[2] ;
