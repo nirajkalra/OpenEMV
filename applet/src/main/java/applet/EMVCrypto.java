@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-package applets;
+package applet;
 
 import javacard.framework.JCSystem;
 import javacard.framework.Util;
@@ -41,7 +41,7 @@ import javacardx.crypto.Cipher;
 public class EMVCrypto implements EMVConstants {
 	
 	/* Reference back to the applet that uses this EMVCrypto object */
-	private final SimpleApplet theApplet;
+	private final SimpleEMVApplet theApplet;
 
 	private final byte[]  sessionkey;
 	
@@ -60,7 +60,7 @@ public class EMVCrypto implements EMVConstants {
 	/** Transient byte array for storing ac transaction_data */
 	byte[] transaction_data;
 	
-	public EMVCrypto(SimpleApplet x){
+	public EMVCrypto(SimpleEMVApplet x){
 		theApplet = x; // reference back to the applet
 
 		diversification_data = JCSystem.makeTransientByteArray((short)8, JCSystem.CLEAR_ON_DESELECT);
