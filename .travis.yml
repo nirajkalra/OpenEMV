@@ -5,13 +5,6 @@ jdk:
   
 before_install: 
   - chmod +x gradlew
-
-env:
-  - JCSDK=jc221
-  - JCSDK=jc222
-  - JCSDK=jc303
-  - JCSDK=jc304
-  - JCSDK=jc305u1
   
 script:
   - ./gradlew check --info
