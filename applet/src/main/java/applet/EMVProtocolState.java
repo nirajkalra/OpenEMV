@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-package applet;
+package applets;
 
 import javacard.framework.JCSystem;
 
@@ -34,10 +34,11 @@ import javacard.framework.JCSystem;
 public class EMVProtocolState implements EMVConstants {
 	
 	/* Reference back to the applet that uses this EMVCrypto object */
-	private final SimpleEMVApplet theApplet;
+	private final SimpleApplet theApplet;
 	private short atc;
-	private short lastOnlineATC;
-	
+	private short lastOnlineATC ;
+       // byte[]OnlineAtc = new byte[2] ;
+        	
 	/** 
 	 * Volatile protocol state; records if CVM has been performed, and if ACs
 	 * have been generated
@@ -80,34 +81,39 @@ public class EMVProtocolState implements EMVConstants {
 
 	private void increaseATC() {
 		//if (atc == MAX) { BLOCK THIS CARD!! }, but we ignore security here
+               
 		atc = (short)(atc+1);
+                lastOnlineATC = atc;
+               
 	}
 	
 	public short getLastOnlineATC() {
+            
 		return lastOnlineATC;
 	}
 	
-	public EMVProtocolState(SimpleEMVApplet x){
+	public EMVProtocolState(SimpleApplet x){
 		theApplet = x;
 		volatileState = JCSystem.makeTransientByteArray((short) 3, JCSystem.CLEAR_ON_DESELECT);
 		cvr = JCSystem.makeTransientByteArray((short) 2, JCSystem.CLEAR_ON_DESELECT);
 	}
 	
-	/* Starts a new session. This resets all session data and increases the ATC,
+	/* Starts a new session. This resets all sessionFLAST data and increases the ATC,
 	 * but does not generate a session key yet.
 	 */
-	public void startNewSession(){
+	public void startNewSession(short a){
 		setFirstACGenerated(NONE);
 		setSecondACGenerated(NONE);
 		setCVMPerformed(NONE);
+                atc = a;
 		increaseATC();
 	}
 	
-	/* 
+	/*  
 	 * Sets the last online ATC equal to the current ATC
 	 */
 	public void onlineSessionCompleted(){
-		lastOnlineATC = atc;
+		lastOnlineATC =  atc;
 	}
 
 	/* Returns the 4 byte CVR (Card Verification Results).
