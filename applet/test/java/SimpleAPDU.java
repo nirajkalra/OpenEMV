@@ -1,6 +1,6 @@
-package simpleapdu;
+package applet;
 
-import applets.SimpleApplet;
+import applet.SimpleEMVApplet;
 import cardTools.CardManager;
 import cardTools.RunConfig;
 import cardTools.Util;
