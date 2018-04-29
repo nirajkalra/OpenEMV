@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 package applet;
-
 import java.util.Arrays;
-import javacard.framework.ISO7816;
 import javacard.framework.*;
 import javacard.security.*;
 import javacardx.crypto.Cipher;
@@ -14,7 +12,6 @@ import javacard.security.KeyBuilder;
 import javacard.security.KeyPair;
 import javacard.security.RSAPrivateKey;
 import javacard.security.CryptoException;
-import javax.crypto.*;
 import javax.crypto.IllegalBlockSizeException;
 import java.security.interfaces.RSAPublicKey;
 import javax.smartcardio.CardException;
