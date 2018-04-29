@@ -120,7 +120,13 @@ public class RSAkeygen {
             B.setModulus(modulus, (short) 0, keyLength);
             B.setExponent(privateexp,(short) 0 , (short) 128);
             decryptCipher.init(B, Cipher.MODE_DECRYPT);
+	try {  	     
             decryptCipher.doFinal(ciphertext, (short) 0, (short) 128, plaintext, (short) 0);
+	} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Failed do final");
+	}                
+      	
             System.out.println(" plaintext = "+ Arrays.toString(plaintext));
     }
     
