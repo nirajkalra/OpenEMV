@@ -88,7 +88,7 @@ javacard {
 
     //noinspection GroovyAssignabilityCheck
     config {
-        jckit "${libsSdk}/${JC_SELECTED}_kit"
+        jckit JC_SELECTED
 
         // JCardSim automatically added by the javacard-gradle plugin
         addSurrogateJcardSimRepo true
@@ -100,7 +100,7 @@ javacard {
             packageName 'applet'
             version '0.1'
             aid '01:02:03:04:05:06:07:08:09'
-            output '/${JC_SELECTED}/applet.cap'
+            output 'applet.cap'
 
             //noinspection GroovyAssignabilityCheck
             applet {
