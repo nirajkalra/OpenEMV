@@ -82,9 +82,9 @@ javacard {
         jckit JC_SELECTED
 
         // JCardSim automatically added by the javacard-gradle plugin
-        addSurrogateJcardSimRepo true
-        addImplicitJcardSim true
-        addImplicitJcardSimJunit true
+        //addSurrogateJcardSimRepo true
+        //addImplicitJcardSim true
+        //addImplicitJcardSimJunit true
 
         //noinspection GroovyAssignabilityCheck
         cap {
