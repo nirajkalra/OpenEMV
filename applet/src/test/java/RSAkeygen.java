@@ -94,23 +94,27 @@ public class RSAkeygen {
             
     }
     
-    public void encrypt () throws MyModuleException
-    { try {
+    public void encrypt () throws GeneralSecurityException
+    { 
             System.out.println("Inside encrypt");
             A.setModulus(modulus, (short) 0, keyLength);
             System.out.println("Setting exponent");
             A.setExponent(publicexp,(short) 0 , (short) 3);
             System.out.println("Initialize cipher");
             encryptCipher.init(A, Cipher.MODE_ENCRYPT);
+      try {  
             System.out.println("do final with data value"+ data);
             encryptCipher.doFinal(data, (short) 0, (short) 128, ciphertext, (short) 0);
+      } catch (InvalidKeyException | NoSuchAlgorithmException
+            | NoSuchPaddingException | IllegalBlockSizeException
+            | BadPaddingException e) {
+        throw new GeneralSecurityException(
+                "unable to encrypt");
+    }
+          
             System.out.println(" data = "+ Arrays.toString(data));
             System.out.println(" ciphertext = "+ Arrays.toString(ciphertext));
-      } catch(Crypto1Ex ex){
-        throw new MyModuleException("something is wrong", ex); //ex added, so it is not lost and visible in stacktraceses
-      } catch(Crypto1Ex ex){
-        throw new MyModuleException("something is wrong", ex);
-      } //etc. 
+      
     }
     
      public void decrypt()
