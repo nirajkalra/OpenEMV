@@ -13,12 +13,24 @@ buildscript {
 }
 
 apply plugin: 'javacard'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 sourceCompatibility = 1.7
+
+if (project.hasProperty("JAVA_HOME"))
+    compileJava.options.bootClasspath = "$JAVA_HOME/jre/lib/rt.jar"
 
 // Common settings, definitions
 final def rootPath = rootDir.absolutePath
 final def libs = rootPath + '/libs'
 final def libsSdk = rootPath + '/libs-sdks'
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
 
 // Repositories for your project
 repositories {
@@ -36,6 +48,7 @@ dependencies {
     
     // jcardsim 'com.licel:jcardsim:3.0.4'
 }
+
 sourceSets {  
     main {
         java {
@@ -57,21 +70,34 @@ test {
 }
 
 // JavaCard SDKs and libraries
-final def JC212 = libsSdk + '/jc212_kit'
-final def JC221 = libsSdk + '/jc221_kit'
-final def JC222 = libsSdk + '/jc222_kit'
-final def JC303 = libsSdk + '/jc303_kit'
-final def JC304 = libsSdk + '/jc304_kit'
-final def JC305 = libsSdk + '/jc305u1_kit'
+final def JC212 = 'jc212'
+final def JC221 = 'jc221'
+final def JC222 = 'jc222'
+final def JC303 = 'jc303'
+final def JC304 = 'jc304'
+final def JC305 = 'jc305u1'
 
-// Which JavaCard SDK to use - select
-final def JC_SELECTED = JC304
+// Which JavaCard SDK can be used
+final def JC_ENABLED = [
+    JC221, JC222, JC303, JC304, JC305
+]
+
+// Which JavaCard SDK to use by default
+def JC_SELECTED = JC221
+
+// Check if user wants to compile with a specific enabled JavaCard SDK
+final def JCSDK = System.getenv('JCSDK')
+if (JCSDK in JC_ENABLED) {
+    JC_SELECTED = JCSDK
+} else if (JCSDK) {
+    throw new InvalidUserDataException("JCSDK environment variable is set to an SDK not available for this project")
+}
 
 javacard {
 
     //noinspection GroovyAssignabilityCheck
     config {
-        jckit JC_SELECTED
+        jckit "${libsSdk}/${JC_SELECTED}_kit"
 
         // JCardSim automatically added by the javacard-gradle plugin
         addSurrogateJcardSimRepo true
@@ -83,7 +109,7 @@ javacard {
             packageName 'applet'
             version '0.1'
             aid '01:02:03:04:05:06:07:08:09'
-            output 'OpenEMVapplet.cap'
+            output '/${JC_SELECTED}/applet.cap'
 
             //noinspection GroovyAssignabilityCheck
             applet {
