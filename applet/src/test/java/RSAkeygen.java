@@ -94,8 +94,8 @@ public class RSAkeygen {
             
     }
     
-    public void encrypt()
-    { 
+    public void encrypt () throws MyModuleException
+    { try {
             System.out.println("Inside encrypt");
             A.setModulus(modulus, (short) 0, keyLength);
             System.out.println("Setting exponent");
@@ -106,7 +106,11 @@ public class RSAkeygen {
             encryptCipher.doFinal(data, (short) 0, (short) 128, ciphertext, (short) 0);
             System.out.println(" data = "+ Arrays.toString(data));
             System.out.println(" ciphertext = "+ Arrays.toString(ciphertext));
-            
+      } catch(Crypto1Ex ex){
+        throw new MyModuleException("something is wrong", ex); //ex added, so it is not lost and visible in stacktraceses
+      } catch(Crypto1Ex ex){
+        throw new MyModuleException("something is wrong", ex);
+      } //etc. 
     }
     
      public void decrypt()
