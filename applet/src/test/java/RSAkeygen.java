@@ -13,7 +13,8 @@ import javacard.security.KeyBuilder;
 import javacard.security.KeyPair;
 import javacard.security.RSAPrivateKey;
 import javacard.security.CryptoException;
-
+import javax.crypto.*;
+import javax.smartcardio.CardException;
 /**
  *
  * @author chintan
