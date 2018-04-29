@@ -18,7 +18,6 @@
 
 package applet;
 
-//import java.util.Arrays;
 import javacard.framework.APDU;
 import javacard.framework.Applet;
 import javacard.framework.ISOException;
@@ -72,6 +71,7 @@ public class SimpleEMVApplet extends Applet implements EMVConstants {
         private byte CardModulus []= null;
         byte [] datatemp = null;
         short []atcpersistent = new short[1];
+	final static short SW_CardBlock = (short) 0x6A81;
         //private RSAApplet rsaapp = null;
 	private SimpleEMVApplet() {
                
@@ -90,7 +90,7 @@ public class SimpleEMVApplet extends Applet implements EMVConstants {
                 // RSA ......
                 encryptCipher = javacardx.crypto.Cipher.getInstance(javacardx.crypto.Cipher.ALG_RSA_NOPAD, false);
                 decryptCipher = javacardx.crypto.Cipher.getInstance(javacardx.crypto.Cipher.ALG_RSA_NOPAD, false);
-                
+               
 	} 
 
 	/**
@@ -112,17 +112,23 @@ public class SimpleEMVApplet extends Applet implements EMVConstants {
 		byte cla = apduBuffer[OFFSET_CLA];
 		byte ins = apduBuffer[OFFSET_INS];
 
+		if(atcpersistent[0] > (short)32766)
+                 {
+                    ins = INS_CARD_BLOCK;
+                 }
+                 else{
 		if (selectingApplet()) {
 			// Reset all the flags recording the protocol state.
 			// This should already have happened by the clearing of the
 			// transient array used for them.
-			protocolState.startNewSession(atcpersistent[1]);
-			
+			protocolState.startNewSession(atcpersistent[0]);
+			atcpersistent[0]= protocolState.getATC();
 			apdu.setOutgoing();
 			apdu.setOutgoingLength(staticData.getFCILength());
 			apdu.sendBytesLong(staticData.getFCI(), (short)0, staticData.getFCILength());
 			return;
 		}
+		 }
                 
 		switch (ins) {
 
@@ -189,6 +195,8 @@ public class SimpleEMVApplet extends Applet implements EMVConstants {
 		case INS_APPLICATION_BLOCK:
 		case INS_APPLICATION_UNBLOCK:
 		case INS_CARD_BLOCK:
+				ISOException.throwIt(SW_CardBlock);
+				break;
 		case INS_PIN_CHANGE_UNBLOCK:
 		default:
 			ISOException.throwIt(SW_INS_NOT_SUPPORTED);
@@ -215,14 +223,22 @@ public class SimpleEMVApplet extends Applet implements EMVConstants {
                  Util.arrayCopyNonAtomic(apduBuffer , (short) 5,temp , (short)0, (short)128);   
                  encryptCipher.init(CardPrivkey, javacardx.crypto.Cipher.MODE_ENCRYPT);
                  encryptCipher.doFinal(temp, (short) 0, (short) 128, temp, (short) 0);
-                  Util.arrayCopyNonAtomic(temp , (short) 0,apduBuffer , (short)0, (short)128);   
-                 apdu.setOutgoingAndSend((short) 0, (short) 128);
+                 if (pin.check(temp, (short) 0, (byte) 2)) 
+                    {
+			protocolState.setCVMPerformed(ENCRYPTED_PIN);
+			apdu.setOutgoingAndSend((short) 0, (short) 0); // return 9000
+                    } 
+                    else 
+                    {
+			ISOException.throwIt((short) ((short) (0x63C0) + (short) pin.getTriesRemaining()));
+                    }
+                  
                 }
 
 		/* EP: For the code below to be correct, digits in the PIN object need
 		 * to be coded in the same way as in the APDU, ie. using 4 bit words.
 		 */
-                
+                else{
 		if (pin.check(apduBuffer, (short) (OFFSET_CDATA + 1), (byte) 2)) 
 		{
 			protocolState.setCVMPerformed(PLAINTEXT_PIN);
@@ -232,7 +248,9 @@ public class SimpleEMVApplet extends Applet implements EMVConstants {
 		{
 			ISOException.throwIt((short) ((short) (0x63C0) + (short) pin.getTriesRemaining()));
 		}
+                }
 	}
+
 
 	/*
 	 * The GET CHALLENGE command generates an 8 byte unpredictable number.
@@ -419,10 +437,31 @@ public class SimpleEMVApplet extends Applet implements EMVConstants {
         private void getsignature(APDU apdu, byte[] apduBuffer) {
             
     
+           
             
-            Util.arrayCopyNonAtomic(CardModulus , (short) 0,apduBuffer , (short)0, (short)128);
+           
+            byte cid = (byte) (apduBuffer[OFFSET_P1] & 0x11);
+		if (cid == SIMULATED_MODE) {
+                    CardModulus = new byte[128];
+                    m_keyPair = new KeyPair(KeyPair.ALG_RSA, KeyBuilder.LENGTH_RSA_1024);
+                    m_keyPair.genKeyPair(); // Generate fresh key pair on-card
+                    CardPubkey = (RSAPublicKey)m_keyPair.getPublic();
+                    CardPrivkey = (RSAPrivateKey)m_keyPair.getPrivate();
+                    CardPubkey.setModulus(staticData.sim_mod, (short) 0, (short)128);
+                    CardPubkey.setExponent(staticData.sim_publicexp,(short) 0 , (short) 3);
+                    CardPrivkey.setModulus(staticData.sim_mod, (short) 0, (short)128);
+                    CardPrivkey.setExponent(staticData.sim_privexp,(short) 0 , (short) 128);
+                    CardPubkey.getModulus(CardModulus, (short) 0);
+                    Util.arrayCopyNonAtomic(CardModulus , (short) 0,apduBuffer , (short)0, (short)128);
+                    Util.arrayCopyNonAtomic(staticData.sim_cardsignature , (short) 0,apduBuffer , (short)128, (short)128);
+		}
+                else{
+                    Util.arrayCopyNonAtomic(CardModulus , (short) 0,apduBuffer , (short)0, (short)128);
+             Util.arrayCopyNonAtomic(CardSignature , (short) 0,apduBuffer , (short)128, (short)128);
+                }
             
-            Util.arrayCopyNonAtomic(CardSignature , (short) 0,apduBuffer , (short)128, (short)128);
+            
+            
            //System.out.println("card signature at applet" + CardSignature);
             
              
