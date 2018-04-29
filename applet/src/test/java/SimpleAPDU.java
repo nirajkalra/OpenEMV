@@ -254,7 +254,7 @@ public class SimpleAPDU
         System.out.println("DEcrypeted HAsh :  " + DatatypeConverter.printHexBinary(decrypted_hash));
         stat = (CompareHash(calculated_hash,decrypted_hash,32));
         //Assert.assertEquals(true, stat);
-        return TRUE;
+        return true;
     }    
     public boolean CompareHash(byte [] calculated_hash, byte [] decrypted_hash,int length ) throws Exception {
         
