@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package applet;
+
 import java.util.Arrays;
 import javacard.framework.*;
 import javacard.security.*;
@@ -12,11 +13,7 @@ import javacard.security.KeyBuilder;
 import javacard.security.KeyPair;
 import javacard.security.RSAPrivateKey;
 import javacard.security.CryptoException;
-import javax.crypto.IllegalBlockSizeException;
-import java.security.interfaces.RSAPublicKey;
-import javax.smartcardio.CardException;
-import org.junit.Assert;
-import org.testng.annotations.*;
+
 /**
  *
  * @author chintan
@@ -97,7 +94,7 @@ public class RSAkeygen {
             
     }
     
-    public void encrypt () 
+    public void encrypt()
     { 
             System.out.println("Inside encrypt");
             A.setModulus(modulus, (short) 0, keyLength);
@@ -105,16 +102,11 @@ public class RSAkeygen {
             A.setExponent(publicexp,(short) 0 , (short) 3);
             System.out.println("Initialize cipher");
             encryptCipher.init(A, Cipher.MODE_ENCRYPT);
-      try {  
             System.out.println("do final with data value"+ data);
             encryptCipher.doFinal(data, (short) 0, (short) 128, ciphertext, (short) 0);
-      } catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("do final failed");
-		}           
             System.out.println(" data = "+ Arrays.toString(data));
             System.out.println(" ciphertext = "+ Arrays.toString(ciphertext));
-      
+            
     }
     
      public void decrypt()
