@@ -6,6 +6,7 @@
 package applet;
 
 import java.util.Arrays;
+import javacard.framework.ISO7816;
 import javacard.framework.*;
 import javacard.security.*;
 import javacardx.crypto.Cipher;
@@ -14,6 +15,8 @@ import javacard.security.KeyPair;
 import javacard.security.RSAPrivateKey;
 import javacard.security.CryptoException;
 import javax.crypto.*;
+import javax.crypto.IllegalBlockSizeException;
+import java.security.interfaces.RSAPublicKey;
 import javax.smartcardio.CardException;
 import org.junit.Assert;
 import org.testng.annotations.*;
