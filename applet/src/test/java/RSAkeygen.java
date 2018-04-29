@@ -102,8 +102,14 @@ public class RSAkeygen {
             A.setExponent(publicexp,(short) 0 , (short) 3);
             System.out.println("Initialize cipher");
             encryptCipher.init(A, Cipher.MODE_ENCRYPT);
-            System.out.println("do final with data value"+ data);
+       try {  
+            System.out.println("Inside do final");
             encryptCipher.doFinal(data, (short) 0, (short) 128, ciphertext, (short) 0);
+            System.out.println("completed do final");
+      } catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Failed do final");
+		}                
             System.out.println(" data = "+ Arrays.toString(data));
             System.out.println(" ciphertext = "+ Arrays.toString(ciphertext));
             
