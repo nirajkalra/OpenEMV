@@ -36,23 +36,20 @@ dependencies {
     
     // jcardsim 'com.licel:jcardsim:3.0.4'
 }
-
-sourceSets {
+sourceSets {  
     main {
         java {
-            srcDir 'src'
+            srcDir 'src/main/java'
         }
     }
 
     test {
         java {
             srcDir 'test/java'
-        }
-        resources {
-            srcDir 'test/resources'
-        }
-    }
+        }       
+    }  
 }
+
 
 test {
     useTestNG()
