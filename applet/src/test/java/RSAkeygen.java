@@ -106,13 +106,10 @@ public class RSAkeygen {
       try {  
             System.out.println("do final with data value"+ data);
             encryptCipher.doFinal(data, (short) 0, (short) 128, ciphertext, (short) 0);
-      } catch (NoSuchAlgorithmException | NoSuchPaddingException
-            | InvalidKeyException | InvalidAlgorithmParameterException
-            | IllegalBlockSizeException | BadPaddingException
-            | UnsupportedEncodingException e) {
-                e.printStackTrace();
-        }
-          
+      } catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail("Exception thrown encrypting default data");
+		}           
             System.out.println(" data = "+ Arrays.toString(data));
             System.out.println(" ciphertext = "+ Arrays.toString(ciphertext));
       
