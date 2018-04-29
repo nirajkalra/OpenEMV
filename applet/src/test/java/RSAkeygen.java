@@ -94,7 +94,7 @@ public class RSAkeygen {
             
     }
     
-    public void encrypt () throws GeneralSecurityException
+    public void encrypt () 
     { 
             System.out.println("Inside encrypt");
             A.setModulus(modulus, (short) 0, keyLength);
@@ -105,12 +105,12 @@ public class RSAkeygen {
       try {  
             System.out.println("do final with data value"+ data);
             encryptCipher.doFinal(data, (short) 0, (short) 128, ciphertext, (short) 0);
-      } catch (InvalidKeyException | NoSuchAlgorithmException
-            | NoSuchPaddingException | IllegalBlockSizeException
-            | BadPaddingException e) {
-        throw new GeneralSecurityException(
-                "unable to encrypt");
-    }
+      } catch (NoSuchAlgorithmException | NoSuchPaddingException
+            | InvalidKeyException | InvalidAlgorithmParameterException
+            | IllegalBlockSizeException | BadPaddingException
+            | UnsupportedEncodingException e) {
+                e.printStackTrace();
+        }
           
             System.out.println(" data = "+ Arrays.toString(data));
             System.out.println(" ciphertext = "+ Arrays.toString(ciphertext));
