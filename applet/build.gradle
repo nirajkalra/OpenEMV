@@ -45,7 +45,7 @@ sourceSets {
 
     test {
         java {
-            srcDir 'test/java'
+            srcDir 'src/test/java'
         }       
     }  
 }
@@ -83,7 +83,7 @@ javacard {
             packageName 'applet'
             version '0.1'
             aid '01:02:03:04:05:06:07:08:09'
-            output 'applet.cap'
+            output 'OpenEMVapplet.cap'
 
             //noinspection GroovyAssignabilityCheck
             applet {
