@@ -106,8 +106,6 @@ public class RSACard {
 
     public void setModulus(byte[] src, short offset, short len)
     {
-         System.arraycopy(src,offset , modulus, (short)0 , len);
-        
-    }
-   
+         System.arraycopy(src,offset , modulus, (short)0 , len);   
+    } 
 }
