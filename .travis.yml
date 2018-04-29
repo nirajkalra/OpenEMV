@@ -1,5 +1,13 @@
 language: java
 
+env:
+  -
+  - JCSDK=jc221
+  - JCSDK=jc222
+  - JCSDK=jc303
+  - JCSDK=jc304
+  - JCSDK=jc305u1
+
 jdk:
   - oraclejdk8
   
@@ -9,3 +17,6 @@ before_install:
 script:
   - ./gradlew check --info
   - ./gradlew buildJavaCard --info
+
+after_failure:
+- ./gradlew clean check --debug
