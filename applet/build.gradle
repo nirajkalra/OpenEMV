@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.klinec:gradle-javacard:1.6.1'
+        classpath 'com.klinec:gradle-javacard:1.5.0'
     }
 }
 
@@ -34,7 +34,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile 'org.testng:testng:6.1.1'
     
-    jcardsim 'com.licel:jcardsim:3.0.5'
+    jcardsim 'com.licel:jcardsim:2.2.2'
 }
 
 sourceSets {  
