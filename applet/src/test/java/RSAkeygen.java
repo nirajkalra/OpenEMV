@@ -8,12 +8,20 @@ package applet;
 import java.util.Arrays;
 import javacard.framework.*;
 import javacard.security.*;
-import javacardx.crypto.Cipher;
+//import javacardx.crypto.Cipher;
 import javacard.security.KeyBuilder;
 import javacard.security.KeyPair;
 import javacard.security.RSAPrivateKey;
 import javacard.security.CryptoException;
-
+import cardTools.CardManager;
+import cardTools.RunConfig;
+import cardTools.Util;
+import javacardx.crypto.*;
+import javax.smartcardio.CommandAPDU;
+import javax.smartcardio.ResponseAPDU;
+import java.util.Scanner;
+//import java.util.Arrays;
+//import javacard.framework.*;
 /**
  *
  * @author chintan
