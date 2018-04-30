@@ -218,7 +218,7 @@ public class SimpleAPDU
            else{
            response = cardMngr.transmit(new CommandAPDU(0x00,0x20,0x00,0x88,temp));
            }
-             //Assert.assertEquals(36864,response.getSW() );
+             Assert.assertEquals(36864,response.getSW() );
            System.out.println("response verify PIN :" + DatatypeConverter.printHexBinary( response.getData()));
            
        }
@@ -253,8 +253,8 @@ public class SimpleAPDU
         System.out.println("Calculated Hash :  " + DatatypeConverter.printHexBinary(calculated_hash));
         System.out.println("DEcrypeted HAsh :  " + DatatypeConverter.printHexBinary(decrypted_hash));
         stat = (CompareHash(calculated_hash,decrypted_hash,32));
-        //Assert.assertEquals(true, stat);
-        return true;
+        Assert.assertEquals(true, stat);
+        return stat;
     }    
     public boolean CompareHash(byte [] calculated_hash, byte [] decrypted_hash,int length ) throws Exception {
         
