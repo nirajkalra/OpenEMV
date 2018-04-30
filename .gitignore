@@ -1,6 +1,8 @@
 .idea
+.nb-*
 .gradle
 *.iml
+*.eml
 applet/out
 applet/build
 simulator/build
