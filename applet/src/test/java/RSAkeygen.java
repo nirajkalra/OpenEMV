@@ -97,9 +97,9 @@ public class RSAkeygen {
     public void encrypt()
     { 
             System.out.println("Inside encrypt");
-            A.setModulus(modulus, (short) 0, keyLength);
+            //A.setModulus(modulus, (short) 0, keyLength);
             System.out.println("Setting exponent");
-            A.setExponent(publicexp,(short) 0 , (short) 3);
+            //A.setExponent(publicexp,(short) 0 , (short) 3);
             System.out.println("Initialize cipher");
             encryptCipher.init(A, Cipher.MODE_ENCRYPT);
        try {  
